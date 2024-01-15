@@ -37,7 +37,7 @@ namespace WebAPI.Controllers
 			Client client = new Client() { Name = name, Description = description };
 			if (await _clientBusiness.Create(client))
 			{
-				return Ok("client créé");
+				return Ok(client);
 			}
 			else
 			{
