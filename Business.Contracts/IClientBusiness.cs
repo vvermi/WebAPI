@@ -14,7 +14,6 @@ namespace Business.Contracts
 		public Task<Client> Read(int id);
 		public Task<bool> Update(Client client);
 		public Task<bool> Delete(int id);
-
 		Task<List<Client>> Search(string name);
 	}
 }

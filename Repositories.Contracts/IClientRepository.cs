@@ -11,6 +11,5 @@ namespace Repositories.Contracts
 		Task<bool> Update(Client client);
 		Task<bool> Delete(int id);
 		Task<List<Client>> Search(string str);
-
 	}
 }

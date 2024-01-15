@@ -30,6 +30,7 @@ namespace WebAPI.Controllers
 		{
 			this._clientBusiness = clientBusiness;
 		}
+
 		[HttpPost]
 		public async Task<ActionResult> Create(string name, string description)
 		{
@@ -70,6 +71,7 @@ namespace WebAPI.Controllers
 				return StatusCode(402, "client n'existe pas");
 			}
 		}
+
 		[HttpGet]
 		public async Task<ActionResult> GetAll()
 		{
@@ -83,10 +85,10 @@ namespace WebAPI.Controllers
 				return StatusCode(402, "pas de clients");
 			}
 		}
+
 		[HttpGet]
 		public async Task<ActionResult> Search(string str)
 		{
-
 			List<Client> clients = await _clientBusiness.Search(str);
 			if (clients != null)
 			{
@@ -98,5 +100,30 @@ namespace WebAPI.Controllers
 			}
 		}
 
+		[HttpPut]
+		public async Task<ActionResult> Update(Client client)
+		{
+			Client clt = await _clientBusiness.Read(client.Id);
+
+			if (clt != null)
+			{
+				clt.Name = client.Name;
+				clt.Description = client.Description;
+				if (await _clientBusiness.Update(clt))
+				{
+
+					return Ok(client);
+				}
+				else
+				{
+					return StatusCode(402, "impossible de mettre à jour");
+				}
+			}
+			else
+			{
+				return StatusCode(402, "pas de client" + client.Id);
+			}
+			}
+
+		}
 	}
-}
