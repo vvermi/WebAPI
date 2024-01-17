@@ -31,8 +31,40 @@ namespace WebAPI.Controllers
 			this._clientBusiness = clientBusiness;
 		}
 
+		/// <summary>
+		/// Fonction qui sert à faire un test unitaire
+		/// </summary>
+		/// <param name="numerateur">le chiffre du haut</param>
+		/// <param name="denominateur">le chiffre du bas</param>
+		/// <returns></returns>
 		[HttpPost]
-		public async Task<ActionResult> Create(string name, string description)
+		[ProducesResponseType(200)]
+		[ProducesResponseType(402)]
+		public async Task<ActionResult> Divide(int numerateur, int denominateur)
+		{
+			
+			if (denominateur != 0)
+			{
+				return Ok(numerateur / denominateur);
+			}
+			else
+			{
+				return StatusCode(402, "pas de division par 0");
+			}
+		}
+
+
+		/// <summary>
+		/// EndPoint to create a new Client, with name and description
+		/// </summary>
+		/// <param name="name">name of the client</param>
+		/// <param name="description">description of the client</param>
+		/// <returns>return an instance of client</returns>
+		[HttpPost]
+		[ProducesResponseType(200)]
+		[ProducesResponseType(402)]
+		
+		public async Task<ActionResult<Client>> Create(string name, string description)
 		{
 			Client client = new Client() { Name = name, Description = description };
 			if (await _clientBusiness.Create(client))
@@ -62,6 +94,20 @@ namespace WebAPI.Controllers
 		public async Task<ActionResult> GetById(int id)
 		{
 			Client client = await _clientBusiness.Read(id);
+			if (client != null)
+			{
+				return Ok(client);
+			}
+			else
+			{
+				return StatusCode(402, "client n'existe pas");
+			}
+		}
+
+		[HttpGet]
+		public async Task<ActionResult> GetByIdInclude(int id)
+		{
+			Client client = await _clientBusiness.ReadInclude(id);
 			if (client != null)
 			{
 				return Ok(client);

@@ -61,6 +61,69 @@ namespace Repositories.Migrations
                             Name = "Wakko"
                         });
                 });
+
+            modelBuilder.Entity("Entities.Commande", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Commandes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClientId = 1,
+                            Description = "Clt1 cmd1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClientId = 1,
+                            Description = "Clt1 cmd2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClientId = 2,
+                            Description = "Clt2 cmd1"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClientId = 3,
+                            Description = "Clt3 cmd1"
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Commande", b =>
+                {
+                    b.HasOne("Entities.Client", "Client")
+                        .WithMany("Commandes")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Entities.Client", b =>
+                {
+                    b.Navigation("Commandes");
+                });
 #pragma warning restore 612, 618
         }
     }

@@ -24,6 +24,10 @@ namespace Business
 		{
 			return await _clientRepository.Read(id);
 		}
+		public async Task<Client> ReadInclude(int id)
+		{
+			return await _clientRepository.ReadInclude(id);
+		}
 		public async Task<bool> Update(Client client)
 		{
 			return await _clientRepository.Update(client);

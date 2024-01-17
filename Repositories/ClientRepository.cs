@@ -33,6 +33,11 @@ namespace Repositories
 		{
 			return await _context.Clients.FirstOrDefaultAsync(c => c.Id == id);
 		}
+
+		public async Task<Client> ReadInclude(int id)
+		{
+			return await _context.Clients.Include(c => c.Commandes).FirstOrDefaultAsync(c => c.Id == id);
+		}
 		public async Task<bool> Update(Client client)
 		{
 			try
